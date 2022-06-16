@@ -17,6 +17,7 @@ const typeDefs = gql`
     repetitions: Number
     username: String
     notes: String
+    createdAt: String
   }
 
   # type Reaction {
