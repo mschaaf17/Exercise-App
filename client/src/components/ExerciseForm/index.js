@@ -37,7 +37,7 @@ const ExerciseForm = () => {
   const handleChange = (event) => {
     if (event.target.value.length <= 280) {
       setText(event.target.value);
-      // making both change! check this out in other react activies from class
+      // making both change! check this out in other react activies from class 
       setWeight(event.target.value)
       setCharacterCount(event.target.value.length);
     }
