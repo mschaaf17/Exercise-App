@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 
 import { useMutation } from '@apollo/client';
-import { ADD_THOUGHT } from '../../utils/mutations';
-import { QUERY_THOUGHTS, QUERY_ME } from '../../utils/queries';
+import { ADD_EXERCISE } from '../../utils/mutations';
+import { QUERY_EXERCISES, QUERY_ME } from '../../utils/queries';
 
-const ThoughtForm = () => {
-  const [thoughtText, setText] = useState('');
+const ExerciseForm = () => {
+  const [exerciseName, setText] = useState('');
+  const [weight, setWeight] = useState('')
   const [characterCount, setCharacterCount] = useState(0);
 
-  const [addThought, { error }] = useMutation(ADD_THOUGHT, {
-    update(cache, { data: { addThought } }) {
+  const [addExercise, { error }] = useMutation(ADD_EXERCISE, {
+    update(cache, { data: { addExercise } }) {
       
         // could potentially not exist yet, so wrap in a try/catch
       try {
@@ -17,17 +18,17 @@ const ThoughtForm = () => {
         const { me } = cache.readQuery({ query: QUERY_ME });
         cache.writeQuery({
           query: QUERY_ME,
-          data: { me: { ...me, thoughts: [...me.thoughts, addThought] } },
+          data: { me: { ...me, exercises: [...me.exercises, addExercise] } },
         });
       } catch (e) {
-        console.warn("First thought insertion by user!")
+        console.warn("First exercise logged by user!")
       }
 
-      // update thought array's cache
-      const { thoughts } = cache.readQuery({ query: QUERY_THOUGHTS });
+      // update exercise array's cache
+      const { exercises } = cache.readQuery({ query: QUERY_EXERCISES });
       cache.writeQuery({
-        query: QUERY_THOUGHTS,
-        data: { thoughts: [addThought, ...thoughts] },
+        query: QUERY_EXERCISES,
+        data: { exercises: [addExercise, ...exercises] },
       });
     }
   });
@@ -36,6 +37,8 @@ const ThoughtForm = () => {
   const handleChange = (event) => {
     if (event.target.value.length <= 280) {
       setText(event.target.value);
+      // making both change! check this out in other react activies from class
+      setWeight(event.target.value)
       setCharacterCount(event.target.value.length);
     }
   };
@@ -45,8 +48,8 @@ const ThoughtForm = () => {
     event.preventDefault();
 
     try {
-      await addThought({
-        variables: { thoughtText },
+      await addExercise({
+        variables: { exerciseName, weight },
       });
 
       // clear form value
@@ -70,11 +73,12 @@ const ThoughtForm = () => {
         onSubmit={handleFormSubmit}
       >
         <textarea
-          placeholder="Here's a new thought..."
-          value={thoughtText}
+          placeholder="Here's a new exercise..."
+          value={exerciseName}
           className="form-input col-12 col-md-9"
           onChange={handleChange}
         ></textarea>
+        <input placeholder="weight" value={weight} onChange={handleChange}/>
         <button className="btn col-12 col-md-3" type="submit">
           Submit
         </button>
@@ -83,4 +87,4 @@ const ThoughtForm = () => {
   );
 };
 
-export default ThoughtForm;
+export default ExerciseForm;

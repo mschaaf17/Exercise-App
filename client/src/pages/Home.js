@@ -1,16 +1,16 @@
 import React from 'react';
-import ThoughtList from '../components/ThoughtList';
-import ThoughtForm from '../components/ThoughtForm';
-import FriendList from '../components/FriendList';
+import ExerciseList from '../components/ExerciseList';
+import ExerciseForm from '../components/ExerciseForm';
+// import FriendList from '../components/FriendList';
 
 import Auth from '../utils/auth';
 import { useQuery } from '@apollo/client';
-import { QUERY_THOUGHTS, QUERY_ME_BASIC } from '../utils/queries';
+import { QUERY_EXERCISES, QUERY_ME} from '../utils/queries';
 
 const Home = () => {
-  const { loading, data } = useQuery(QUERY_THOUGHTS);
-  const { data: userData } = useQuery(QUERY_ME_BASIC);
-  const thoughts = data?.thoughts || [];
+  const { loading, data } = useQuery(QUERY_EXERCISES);
+  const { data: userData } = useQuery(QUERY_ME);
+  const exercises = data?.exercises || [];
 
   const loggedIn = Auth.loggedIn();
 
@@ -19,26 +19,29 @@ const Home = () => {
       <div className="flex-row justify-space-between">
         {loggedIn && (
           <div className="col-12 mb-3">
-            <ThoughtForm />
+            <ExerciseForm />
+            Hey you are logged in!
           </div>
         )}
         <div className={`col-12 mb-3 ${loggedIn && 'col-lg-8'}`}>
           {loading ? (
             <div>Loading...</div>
           ) : (
-            <ThoughtList
-              thoughts={thoughts}
-              title="Some Feed for Thought(s)..."
+            <ExerciseList
+              exercises={exercises}
+              title="Some Feed for Exercise(s)..."
             />
           )}
+          next div
         </div>
         {loggedIn && userData ? (
           <div className="col-12 col-lg-3 mb-3">
-            <FriendList
+            {/* <FriendList
               username={userData.me.username}
               friendCount={userData.me.friendCount}
               friends={userData.me.friends}
-            />
+            /> */}
+            next div again!
           </div>
         ) : null}
       </div>

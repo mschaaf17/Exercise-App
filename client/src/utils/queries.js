@@ -1,37 +1,29 @@
 import { gql } from '@apollo/client';
 
-export const QUERY_THOUGHTS = gql`
-  query thoughts($username: String) {
-    thoughts(username: $username) {
+export const QUERY_EXERCISES = gql`
+  query exercises($username: String) {
+    exercises(username: $username) {
       _id
-      thoughtText
-      createdAt
+      exerciseName
+      weight
+      repetitions
       username
-      reactionCount
-      reactions {
-        _id
-        createdAt
-        username
-        reactionBody
-      }
+      notes
+      createdAt
     }
   }
 `;
 
-export const QUERY_THOUGHT = gql`
-  query thought($id: ID!) {
-    thought(_id: $id) {
+export const QUERY_EXERCISE = gql`
+  query exercise($id: ID!) {
+    exercise(_id: $id) {
       _id
-      thoughtText
-      createdAt
+      exerciseName
+      weight
+      repetitions
       username
-      reactionCount
-      reactions {
-        _id
-        createdAt
-        username
-        reactionBody
-      }
+      notes
+      createdAt
     }
   }
 `;
@@ -42,16 +34,18 @@ export const QUERY_USER = gql`
       _id
       username
       email
-      friendCount
-      friends {
+      # friendCount
+      # friends {
+      #   _id
+      #   username
+      # }
+      exercises {
         _id
-        username
-      }
-      thoughts {
-        _id
-        thoughtText
+        exerciseName
+        weight
+        repetitions
         createdAt
-        reactionCount
+        notes
       }
     }
   }
@@ -63,38 +57,34 @@ export const QUERY_ME = gql`
       _id
       username
       email
-      friendCount
-      thoughts {
+      # friendCount
+      exercises {
         _id
-        thoughtText
+        exerciseName
+        weight
+        repetitions
         createdAt
-        reactionCount
-        reactions {
-          _id
-          createdAt
-          reactionBody
-          username
+        notes
         }
       }
-      friends {
-        _id
-        username
-      }
+      # friends {
+      #   _id
+      #   username
+      # }
     }
-  }
 `;
 
-export const QUERY_ME_BASIC = gql`
-  {
-    me {
-      _id
-      username
-      email
-      friendCount
-      friends {
-        _id
-        username
-      }
-    }
-  }
-`;
+// export const QUERY_ME_BASIC = gql`
+//   {
+//     me {
+//       _id
+//       username
+//       email
+//       friendCount
+//       friends {
+//         _id
+//         username
+//       }
+//     }
+//   }
+// `;
