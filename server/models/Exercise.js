@@ -6,18 +6,22 @@ const exerciseSchema = new Schema(
   {
     exerciseName: {
       type: String,
-      required: 'You need to provide a name for your exercise',
+      // required: 'You need to provide a name for your exercise',
       minlength: 1,
       maxlength: 280
     },
     weight: {
-      type: Number,
-      require: 'Please enter the weight for this exercise'
+      type: Number
+      // require: 'Please enter the weight for this exercise'
 
     },
     repetitions: {
-      type: Number,
-      required: 'How many reps did you do?'
+      type: Number
+      // required: 'How many reps did you do?'
+    },
+    cardioTime: {
+      type: Number
+      // require: 'Enter 0'
     },
     notes: {
       type: String
